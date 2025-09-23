@@ -1621,7 +1621,7 @@ GameObject:
   - component: {fileID: 1807660220194146152}
   - component: {fileID: 4382615427727700521}
   - component: {fileID: 5021456340664924597}
-  - component: {fileID: 6378812852781934474}
+  - component: {fileID: 3222442258081380438}
   m_Layer: 8
   m_Name: Dropdown
   m_TagString: Untagged
@@ -1760,7 +1760,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_AlphaFadeSpeed: 0.15
---- !u!114 &6378812852781934474
+--- !u!114 &3222442258081380438
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1769,9 +1769,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 7289013400177430313}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4184ca299a6268f44b8bd82da499301f, type: 3}
+  m_Script: {fileID: 11500000, guid: a3adfccc29fd68645879ed4554cc18e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scrollRect: {fileID: 2704074433561709804}
 --- !u!1 &7702868514640740735
 GameObject:
   m_ObjectHideFlags: 0
