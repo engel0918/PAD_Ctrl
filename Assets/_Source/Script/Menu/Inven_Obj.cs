@@ -14,6 +14,14 @@ public class Inven_Obj : MonoBehaviour
     public List<string> GRN;
     public List<int> GRN_Cnt;
 
-    public List<string> Con;
+    public List<string> CON;
     public List<int> Con_Cnt;
+
+    public List<string> MAT;
+    public List<int> Mat_Cnt;
+
+    public List<string> VAL;
+    public List<int> VAL_Cnt;
+
+
 }

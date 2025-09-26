@@ -18256,7 +18256,7 @@ GameObject:
   - component: {fileID: 443918717}
   - component: {fileID: 443918716}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: Main_UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -77579,6 +77579,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Obj: {fileID: 977865792}
+  EquipPT: []
+  RWP: []
+  MWP: []
+  GRN: []
+  GRN_Cnt: 
+  CON: []
+  Con_Cnt: 
+  MAT: []
+  Mat_Cnt: 
+  VAL: []
+  VAL_Cnt: 
 --- !u!1001 &1910614401
 PrefabInstance:
   m_ObjectHideFlags: 0
