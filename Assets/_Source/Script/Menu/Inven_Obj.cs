@@ -6,6 +6,9 @@ public class Inven_Obj : MonoBehaviour
 {
     public GameObject Obj;
 
+    [Header("RWP > VAL")]
+    public List<GameObject> MenuObj;
+
     public List<string> EquipPT;
 
     public List<string> RWP;
@@ -23,5 +26,14 @@ public class Inven_Obj : MonoBehaviour
     public List<string> VAL;
     public List<int> VAL_Cnt;
 
+    public void Sel_Menu(int i)
+    {
+        foreach (GameObject page in MenuObj)
+        {
+            if (page != null)
+            { page.SetActive(false); }
+        }
 
+        MenuObj[i].SetActive(true);
+    }
 }
