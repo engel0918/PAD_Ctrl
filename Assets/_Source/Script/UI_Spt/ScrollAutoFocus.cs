@@ -1,10 +1,10 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class ScrollAutoFocus : MonoBehaviour
 {
-    public ScrollRect scrollRect; // ±âº» UI ScrollRect (¿¹: ÀÎº¥Åä¸®, ¸Ş´º µî)
+    public ScrollRect scrollRect; // ê¸°ë³¸ UI ScrollRect (ì˜ˆ: ì¸ë²¤í† ë¦¬, ë©”ë‰´ ë“±)
 
     private void FixedUpdate()
     {
@@ -14,14 +14,14 @@ public class ScrollAutoFocus : MonoBehaviour
         RectTransform target = selected.GetComponent<RectTransform>();
         if (target == null) return;
 
-        // 1) ÀÏ¹İ ScrollRect ¾È
+        // 1) ì¼ë°˜ ScrollRect ì•ˆ
         if (scrollRect != null && target.transform.IsChildOf(scrollRect.content))
         {
             EnsureVisible(scrollRect, target);
             return;
         }
 
-        // 2) TMP_DropdownÀÇ Dropdown List ¾È (µ¿ÀûÀ¸·Î »ı¼ºµÊ)
+        // 2) TMP_Dropdownì˜ Dropdown List ì•ˆ (ë™ì ìœ¼ë¡œ ìƒì„±ë¨)
         ScrollRect dropdownScroll = target.GetComponentInParent<ScrollRect>();
         if (dropdownScroll != null && target.transform.IsChildOf(dropdownScroll.content))
         {
@@ -38,12 +38,32 @@ public class ScrollAutoFocus : MonoBehaviour
         viewport.GetWorldCorners(vpCorners);
         target.GetWorldCorners(tgCorners);
 
-        // ¾Æ·¡ÂÊÀ¸·Î ¹ş¾î³²
-        if (tgCorners[0].y < vpCorners[0].y)
-            scroll.content.localPosition += new Vector3(0, vpCorners[0].y - tgCorners[0].y);
+        Vector3 offset = Vector3.zero;
 
-        // À§ÂÊÀ¸·Î ¹ş¾î³²
-        if (tgCorners[1].y > vpCorners[1].y)
-            scroll.content.localPosition -= new Vector3(0, tgCorners[1].y - vpCorners[1].y);
+        // ğŸ”¹ ìˆ˜í‰ ìŠ¤í¬ë¡¤ ì²˜ë¦¬
+        if (scroll.horizontal)
+        {
+            // ì™¼ìª½ìœ¼ë¡œ ë²—ì–´ë‚¨
+            if (tgCorners[0].x < vpCorners[0].x)
+                offset.x += vpCorners[0].x - tgCorners[0].x;
+
+            // ì˜¤ë¥¸ìª½ìœ¼ë¡œ ë²—ì–´ë‚¨
+            if (tgCorners[3].x > vpCorners[3].x)
+                offset.x -= tgCorners[3].x - vpCorners[3].x;
+        }
+
+        // ğŸ”¹ ìˆ˜ì§ ìŠ¤í¬ë¡¤ ì²˜ë¦¬
+        if (scroll.vertical)
+        {
+            // ì•„ë˜ë¡œ ë²—ì–´ë‚¨
+            if (tgCorners[0].y < vpCorners[0].y)
+                offset.y += vpCorners[0].y - tgCorners[0].y;
+
+            // ìœ„ë¡œ ë²—ì–´ë‚¨
+            if (tgCorners[1].y > vpCorners[1].y)
+                offset.y -= tgCorners[1].y - vpCorners[1].y;
+        }
+
+        scroll.content.localPosition += offset;
     }
 }

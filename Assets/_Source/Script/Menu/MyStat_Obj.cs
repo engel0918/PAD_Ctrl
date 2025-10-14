@@ -40,7 +40,7 @@ public class MyStat_Obj : MonoBehaviour
 
     void Go_Inven(int i)
     {
-        IGUI.Menu_Obj.Sel_Menu(2);
+        IGUI.Menu_Obj.Sel_Menu(1);
         Inven.Menu_Obj.Sel_Menu(i);
     }
 }

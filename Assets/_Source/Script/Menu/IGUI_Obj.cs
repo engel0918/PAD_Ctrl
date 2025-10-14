@@ -4,16 +4,22 @@ using UnityEngine.UI;
 
 public class IGUI_Obj : MonoBehaviour
 {
+    [SerializeField]TopUI_Ctrl TopUI;
+
     public GameObject Obj;
 
     [Header("IGUI > Quest")]
     public List<GameObject> MenuObj;
     public List<Button> MenuBtns;
 
-
     private void Start()
     {
         SetBtn();
+    }
+
+    private void OnEnable()
+    {
+        True_IGUI();
     }
 
     void SetBtn()
@@ -26,9 +32,23 @@ public class IGUI_Obj : MonoBehaviour
                 {
                     int index = i;
                     MenuBtns[i].onClick.AddListener(() => Sel_Menu(index));
+                    TopUI.MovBtns[i].GetComponent<Button>().onClick.AddListener(() => Sel_Menu(index));
                 }
             }
+
+
         }
+    }
+
+    public void True_IGUI()
+    {
+        foreach (GameObject page in MenuObj)
+        {
+            if (page != null)
+            { page.SetActive(false); }
+        }
+
+        Obj.SetActive(true);
     }
 
     public void Sel_Menu(int i)
@@ -40,5 +60,9 @@ public class IGUI_Obj : MonoBehaviour
         }
 
         MenuObj[i].SetActive(true);
+
+        Obj.SetActive(false);
+
+        TopUI.MoveToTarget(TopUI.MovBtns[i]);
     }
 }
