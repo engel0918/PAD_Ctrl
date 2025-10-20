@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class Tit_Ctrl : MonoBehaviour
 {
+    [SerializeField] Button Start_Btn;
     public List<Button> Tit_Btns;
 
     [Header("Hover Evt: txt, Img")]
@@ -23,6 +25,8 @@ public class Tit_Ctrl : MonoBehaviour
 
     private void Start()
     {
+        Hover_Obj.SetActive(false);
+
         SetBtn();
     }
 
@@ -43,12 +47,17 @@ public class Tit_Ctrl : MonoBehaviour
             else
                 trigger.triggers.Clear();
 
+            // --- 패드용 버튼에 이벤트 조정 ---
+            Tit_Btns[i].AddComponent<Tit_HovEvt>().Tit = this;
+
             // --- Pointer Enter Event ---
             AddEventTrigger(Tit_Btns[i].gameObject, EventTriggerType.PointerEnter, () => Hov_Evt(index));
 
             // --- Pointer Exit Event ---
             AddEventTrigger(Tit_Btns[i].gameObject, EventTriggerType.PointerExit, HoverOut_Evt);
         }
+
+        EventSystem.current.SetSelectedGameObject(Start_Btn.gameObject);
     }
 
     void AddEventTrigger(GameObject obj, EventTriggerType type, System.Action action)
@@ -67,7 +76,7 @@ public class Tit_Ctrl : MonoBehaviour
         // 방어 코드 추가 (예외 방지)
         if (value < 0 || value >= Hov.Count)
         {
-            Debug.LogWarning($"⚠️ 잘못된 인덱스 접근: {value}");
+            Debug.LogWarning("잘못된 인덱스 접근: {value}");
             return;
         }
 
@@ -83,7 +92,7 @@ public class Tit_Ctrl : MonoBehaviour
 
     public void HoverOut_Evt()
     {
-        Hover_Obj.SetActive(false);
+        //Hover_Obj.SetActive(false);
     }
 
     void SizeCtrl()
