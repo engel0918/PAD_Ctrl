@@ -8,8 +8,12 @@ using UnityEngine.UI;
 
 public class Tit_Ctrl : MonoBehaviour
 {
+    [SerializeField] GameObject ReturnPage;
     [SerializeField] Button Start_Btn;
     public List<Button> Tit_Btns;
+    public List<PopUp_Load> PopUp_Evts;
+
+    public List<Button> Btn_Returns;
 
     [Header("Hover Evt: txt, Img")]
     [SerializeField] GameObject Hover_Obj;
@@ -22,16 +26,35 @@ public class Tit_Ctrl : MonoBehaviour
     public List<Hov_info> Hov;
 
     bool SizeCheck;
+    PageCtrl page;
+
 
     private void Start()
     {
         Hover_Obj.SetActive(false);
 
         SetBtn();
+        SetReturn();
     }
+
+    public void SetReturn()
+    {
+        if (page == null) { page = GetComponent<PageCtrl>(); }
+
+        page.All_Check(false);
+        ReturnPage.SetActive(true);
+    }
+
+    void False_ReturnPage()
+    { ReturnPage.SetActive(false); }
 
     void SetBtn()
     {
+        if (page == null) { page = GetComponent<PageCtrl>(); }
+
+        for (int i = 0; i < page.PageBtns.Count; i++)
+        { page.PageBtns[i].onClick.AddListener(False_ReturnPage); }
+
         for (int i = 0; i < Tit_Btns.Count; i++)
         {
             int index = i; // ⚠️ 반드시 지역 변수로 복사해야 각 버튼이 자기 인덱스를 기억합니다.
@@ -55,6 +78,22 @@ public class Tit_Ctrl : MonoBehaviour
 
             // --- Pointer Exit Event ---
             AddEventTrigger(Tit_Btns[i].gameObject, EventTriggerType.PointerExit, HoverOut_Evt);
+
+            // --- PopUp Event ---
+            if (PopUp_Evts[i] != null)
+            { Tit_Btns[i].onClick.AddListener(PopUp_Evts[i].PopUP_On); }
+        }
+
+        if (Btn_Returns.Count > 0)
+        {
+            for (int i = 0; i <= (Btn_Returns.Count - 1); i++)
+            {
+                if (Btn_Returns[i] != null)
+                {
+                    int index = i;
+                    Btn_Returns[i].onClick.AddListener(SetReturn);
+                }
+            }
         }
 
         EventSystem.current.SetSelectedGameObject(Start_Btn.gameObject);

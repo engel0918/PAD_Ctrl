@@ -1,6 +1,7 @@
 {
   "dependencies": {
-    "com.unity.ai.navigation": "2.0.8",
+    "com.rlabrecque.steamworks.net": "file:C:/Yun JinYeol/Unity/_pkg/Steamworks.NET-master/com.rlabrecque.steamworks.net",
+    "com.unity.ai.navigation": "2.0.9",
     "com.unity.collab-proxy": "2.9.3",
     "com.unity.ide.rider": "3.0.36",
     "com.unity.ide.visualstudio": "2.0.23",
