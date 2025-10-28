@@ -26,6 +26,8 @@ public class PopUp : MonoBehaviour
     private Dictionary<Button, Navigation> originalNav = new Dictionary<Button, Navigation>();
 
     private GameObject lastSel_obj;
+
+    public bool PopUp_is;
     private void Awake()
     {
         popup = GetComponent<PopUp_Obj>();
@@ -43,56 +45,76 @@ public class PopUp : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if(PopUp_is == true)
+        {
+            // 스킵 (Esc 또는 패드 B)
+            if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown("joystick button 1"))
+            { popupBtns[1].onClick.Invoke(); }
+        }
+    }
+
     public void PopUP_On(string tit, List<string> Info, List<string> Btntxts, bool Back)
     {
-        Popup_Obj.SetActive(true);
-
-        NaviFunc_Popup_On();
-
-        //Title 내용
-        txt_Tit.text = tit;
-        txt_Info.text = "";
-        
-        //팝업 내용
-        for(int i = 0; i <= (Info.Count-1); i++)
+        if (PopUp_is == false)
         {
-            if (i < Info.Count)
-            { txt_Info.text += Info[i] + System.Environment.NewLine; }
-            else { txt_Info.text += Info[i]; }
+            Popup_Obj.SetActive(true);
+
+            NaviFunc_Popup_On();
+
+            //Title 내용
+            txt_Tit.text = tit;
+            txt_Info.text = "";
+
+            //팝업 내용
+            for (int i = 0; i <= (Info.Count - 1); i++)
+            {
+                if (i < Info.Count)
+                { txt_Info.text += Info[i] + System.Environment.NewLine; }
+                else { txt_Info.text += Info[i]; }
+            }
+
+            // 버튼 txt
+            if (Btntxts.Count > 0)
+            {
+                for (int i = 0; i <= (Btntxts.Count - 1); i++)
+                { popupBtns[i].transform.GetChild(0).GetComponent<TMP_Text>().text = Btntxts[i]; }
+            }
+
+            // Back image를 true로 할지 false로 할지
+            if (Back == true) { if (Back_Obj != null) { Back_Obj.SetActive(true); } }
+            else { if (Back_Obj != null) { Back_Obj.SetActive(false); } }
+
+            // 버튼에 팝업끄기 기능 추가
+            popupBtns[0].onClick.AddListener(PopUP_Off);
+            popupBtns[1].onClick.AddListener(PopUP_Off);
+
+            EventSystem.current.SetSelectedGameObject(popupBtns[0].gameObject);
+
+            PopUp_is = true;
         }
-
-        // 버튼 txt
-        if (Btntxts.Count > 0)
-        {
-            for (int i = 0; i <= (Btntxts.Count - 1); i++)
-            { popupBtns[i].transform.GetChild(0).GetComponent<TMP_Text>().text = Btntxts[i]; }
-        }
-
-        // Back image를 true로 할지 false로 할지
-        if(Back == true) { if (Back_Obj != null) { Back_Obj.SetActive(true); } }
-        else { if (Back_Obj != null) { Back_Obj.SetActive(false); } }
-
-        // 버튼에 팝업끄기 기능 추가
-        popupBtns[0].onClick.AddListener(PopUP_Off);
-        popupBtns[1].onClick.AddListener(PopUP_Off);
-
-        EventSystem.current.SetSelectedGameObject(popupBtns[0].gameObject);
     }
 
     public void PopUP_Off()
     {
-        NaviFunc_Popup_Off();
+        if (PopUp_is == true)
+        {
+            NaviFunc_Popup_Off();
 
-        for (int i = 0; i <= (popupBtns.Count-1); i++)
-        { 
-            if (popupBtns[i] != null) 
-            { popupBtns[i].onClick.RemoveAllListeners(); }
+            for (int i = 0; i <= (popupBtns.Count - 1); i++)
+            {
+                if (popupBtns[i] != null)
+                { popupBtns[i].onClick.RemoveAllListeners(); }
+            }
+
+            Popup_Obj.SetActive(false);
+
+            if (Back_Obj.activeSelf == true)
+            { Back_Obj.SetActive(false); }
+
+            PopUp_is = false;
         }
-
-        Popup_Obj.SetActive(false);
-
-        if (Back_Obj.activeSelf == true) 
-        { Back_Obj.SetActive(false); }
     }
 
 

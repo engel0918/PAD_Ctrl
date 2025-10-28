@@ -37,8 +37,14 @@ public class Tit_Ctrl : MonoBehaviour
         SetReturn();
     }
 
-    public void SetReturn()
+    private void OnEnable()
     {
+        if(Hover_Obj.activeSelf == true)
+        { Hover_Obj.SetActive(false); }
+    }
+
+    public void SetReturn()
+    {   
         if (page == null) { page = GetComponent<PageCtrl>(); }
 
         page.All_Check(false);
