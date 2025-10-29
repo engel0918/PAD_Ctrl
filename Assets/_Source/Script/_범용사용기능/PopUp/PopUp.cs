@@ -25,7 +25,7 @@ public class PopUp : MonoBehaviour
 
     private Dictionary<Button, Navigation> originalNav = new Dictionary<Button, Navigation>();
 
-    private GameObject lastSel_obj;
+    public GameObject lastSel_obj;
 
     public bool PopUp_is;
     private void Awake()

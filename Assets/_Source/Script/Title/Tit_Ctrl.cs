@@ -28,9 +28,12 @@ public class Tit_Ctrl : MonoBehaviour
     bool SizeCheck;
     PageCtrl page;
 
+    PopUp popup;
 
     private void Start()
     {
+        popup = GameObject.FindGameObjectWithTag("PopUp").GetComponent<PopUp>();
+
         Hover_Obj.SetActive(false);
 
         SetBtn();
@@ -44,11 +47,25 @@ public class Tit_Ctrl : MonoBehaviour
     }
 
     public void SetReturn()
-    {   
+    {
+
+        bool Focus = false;
+        for (int i = 0; i <= (Tit_Btns.Count - 1); i++)
+        {
+            if (popup.lastSel_obj == Tit_Btns[i]) 
+            { Focus = true; }
+        }
+
+        if (Focus == true) { ReturnPage.GetComponent<Set_Focus>().enabled = false; }
+        else { ReturnPage.GetComponent<Set_Focus>().enabled = true; }
+
+        Debug.Log("Focus: " + popup.lastSel_obj.name);
+
         if (page == null) { page = GetComponent<PageCtrl>(); }
 
         page.All_Check(false);
         ReturnPage.SetActive(true);
+
     }
 
     void False_ReturnPage()
