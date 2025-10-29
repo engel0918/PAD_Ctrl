@@ -25,12 +25,6 @@ public class Credit : MonoBehaviour
 
     private void Update()
     {
-        // 스킵 (Esc 또는 패드 B)
-        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown("joystick button 1"))
-        {
-            SkipCredit();
-            return;
-        }
 
         if (!Scroll)
             return;

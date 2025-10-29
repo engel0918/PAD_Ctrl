@@ -98,6 +98,7 @@ public class Tit_Ctrl : MonoBehaviour
                 {
                     int index = i;
                     Btn_Returns[i].onClick.AddListener(SetReturn);
+                    Btn_Returns[i].gameObject.AddComponent<Tit_ReturnBtn>().Btn = Btn_Returns[i];
                 }
             }
         }
