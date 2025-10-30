@@ -1,14 +1,36 @@
-using Steamworks;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using Steamworks;
 
-
 public class SteamManager : MonoBehaviour
 {
-    private bool initialized = false;
+    private static SteamManager s_instance;
+    private static bool s_EverInitialized;
 
-    void Start()
+    public static bool Initialized { get; private set; }
+
+    private void Awake()
     {
+        if (s_instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        s_instance = this;
+        //DontDestroyOnLoad(gameObject);
+
+        if (!Packsize.Test())
+        {
+            Debug.LogError("Packsize 불일치");
+        }
+
+        if (!DllCheck.Test())
+        {
+            Debug.LogError("Steamworks.NET DLL 불일치");
+        }
+
         try
         {
             if (SteamAPI.RestartAppIfNecessary((AppId_t)3904900))
@@ -16,30 +38,49 @@ public class SteamManager : MonoBehaviour
                 Application.Quit();
                 return;
             }
-
-            SteamAPI.Init();
-            initialized = true;
-
-            Debug.Log("Steam 초기화 성공!");
-            Debug.Log("Steam 사용자 이름: " + SteamFriends.GetPersonaName());
         }
-        catch (System.Exception e)
+        catch (System.DllNotFoundException e)
         {
-            Debug.LogError("Steam 초기화 실패: " + e.Message);
+            Debug.LogError("steam_api.dll 없음: " + e);
+            Application.Quit();
+            return;
+        }
+
+        Initialized = SteamAPI.Init();
+        if (!Initialized)
+        {
+            Debug.LogError("SteamAPI 초기화 실패");
+        }
+        else
+        {
+            Debug.Log("Steam 초기화 성공");
+        }
+
+        s_EverInitialized = true;
+    }
+
+    private void OnEnable()
+    {
+        if (s_instance == null) s_instance = this;
+    }
+
+    private void OnDestroy()
+    {
+        if (s_instance != this) return;
+
+        s_instance = null;
+
+        if (Initialized)
+        {
+            SteamAPI.Shutdown();
         }
     }
 
-    void Update()
+    private void Update()
     {
-        if (initialized)
+        if (Initialized)
+        {
             SteamAPI.RunCallbacks();
-    }
-
-    void OnApplicationQuit()
-    {
-        if (initialized)
-            Debug.Log("Steam - 종료");
-            SteamAPI.Shutdown();
+        }
     }
 }
-

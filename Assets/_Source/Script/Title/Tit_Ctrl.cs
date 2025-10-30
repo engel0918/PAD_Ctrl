@@ -8,6 +8,8 @@ using UnityEngine.UI;
 
 public class Tit_Ctrl : MonoBehaviour
 {
+    public int Order;
+
     [SerializeField] GameObject ReturnPage;
     [SerializeField] Button Start_Btn;
     public List<Button> Tit_Btns;
@@ -28,11 +30,15 @@ public class Tit_Ctrl : MonoBehaviour
     bool SizeCheck;
     PageCtrl page;
 
-    PopUp popup;
+    SteamSave SteamMgr;
 
     private void Start()
     {
-        popup = GameObject.FindGameObjectWithTag("PopUp").GetComponent<PopUp>();
+        Order = -1;
+
+        gameObject.AddComponent<SteamManager>();
+        SteamMgr = gameObject.AddComponent<SteamSave>();
+        transform.tag = "Steam";
 
         Hover_Obj.SetActive(false);
 
@@ -48,28 +54,28 @@ public class Tit_Ctrl : MonoBehaviour
 
     public void SetReturn()
     {
-
-        bool Focus = false;
-        for (int i = 0; i <= (Tit_Btns.Count - 1); i++)
-        {
-            if (popup.lastSel_obj == Tit_Btns[i]) 
-            { Focus = true; }
-        }
-
-        if (Focus == true) { ReturnPage.GetComponent<Set_Focus>().enabled = false; }
-        else { ReturnPage.GetComponent<Set_Focus>().enabled = true; }
-
-        Debug.Log("Focus: " + popup.lastSel_obj.name);
-
         if (page == null) { page = GetComponent<PageCtrl>(); }
 
         page.All_Check(false);
         ReturnPage.SetActive(true);
 
+        if (Order < 0)
+        { ReturnPage.GetComponent<Set_Focus>().enabled = true; }
+        else
+        {
+            ReturnPage.GetComponent<Set_Focus>().enabled = false;
+            EventSystem.current.SetSelectedGameObject(Tit_Btns[Order].gameObject);
+        }
     }
 
     void False_ReturnPage()
     { ReturnPage.SetActive(false); }
+
+    void SetOrder(int i)
+    {
+        Order = i;
+        //Debug.Log("Ord: " + Order);
+    }
 
     void SetBtn()
     {
@@ -81,6 +87,9 @@ public class Tit_Ctrl : MonoBehaviour
         for (int i = 0; i < Tit_Btns.Count; i++)
         {
             int index = i; // ⚠️ 반드시 지역 변수로 복사해야 각 버튼이 자기 인덱스를 기억합니다.
+
+            if (Tit_Btns[index] != null)
+            { Tit_Btns[index].onClick.AddListener(() => SetOrder(index)); }
 
             // 버튼에 EventTrigger가 없다면 자동으로 추가
             EventTrigger trigger = Tit_Btns[i].gameObject.GetComponent<EventTrigger>();

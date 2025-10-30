@@ -22,6 +22,7 @@ public class Tit_HovEvt : MonoBehaviour, ISelectHandler, IDeselectHandler
     {
         //Debug.Log($"{gameObject.name} 이(가) 선택 해제되었습니다!");
         // 선택 해제 시 실행할 코드
-        if (Tit != null) { Tit.HoverOut_Evt(); }
+        if (Tit != null) 
+        { Tit.HoverOut_Evt(); }
     }
 }
