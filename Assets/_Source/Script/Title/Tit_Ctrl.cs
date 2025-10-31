@@ -8,10 +8,10 @@ using UnityEngine.UI;
 
 public class Tit_Ctrl : MonoBehaviour
 {
+
     public int Order;
 
     [SerializeField] GameObject ReturnPage;
-    [SerializeField] Button Start_Btn;
     public List<Button> Tit_Btns;
     public List<PopUp_Load> PopUp_Evts;
 
@@ -64,7 +64,9 @@ public class Tit_Ctrl : MonoBehaviour
         else
         {
             ReturnPage.GetComponent<Set_Focus>().enabled = false;
-            EventSystem.current.SetSelectedGameObject(Tit_Btns[Order].gameObject);
+
+            if (Device_Check.device == "PAD")
+            { EventSystem.current.SetSelectedGameObject(Tit_Btns[Order].gameObject); }
         }
     }
 
@@ -129,7 +131,6 @@ public class Tit_Ctrl : MonoBehaviour
             }
         }
 
-        EventSystem.current.SetSelectedGameObject(Start_Btn.gameObject);
     }
 
     void AddEventTrigger(GameObject obj, EventTriggerType type, System.Action action)

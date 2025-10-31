@@ -90,9 +90,12 @@ public class PopUp : MonoBehaviour
             popupBtns[0].onClick.AddListener(PopUP_Off);
             popupBtns[1].onClick.AddListener(PopUP_Off);
 
-            EventSystem.current.SetSelectedGameObject(popupBtns[0].gameObject);
+            if (Device_Check.device == "PAD")
+            {
+                { EventSystem.current.SetSelectedGameObject(popupBtns[0].gameObject); }
 
-            PopUp_is = true;
+                PopUp_is = true;
+            }
         }
     }
 
@@ -149,7 +152,12 @@ public class PopUp : MonoBehaviour
         }
 
         if (popupBtns.Count > 0)
-            EventSystem.current.SetSelectedGameObject(popupBtns[0].gameObject);
+        {
+            if (Device_Check.device == "PAD")
+            {
+                EventSystem.current.SetSelectedGameObject(popupBtns[0].gameObject);
+            }
+        }
     }
 
     // 팝업 닫힐 때
@@ -162,13 +170,21 @@ public class PopUp : MonoBehaviour
             scroll.enabled = true;
 
         if (mainBtns.Count > 0)
-            EventSystem.current.SetSelectedGameObject(mainBtns[0].gameObject);
+        {
+            if (Device_Check.device == "PAD")
+            { EventSystem.current.SetSelectedGameObject(mainBtns[0].gameObject); }
+        }
 
         // 마지막 선택된 버튼으로 복원
         if (lastSel_obj != null)
-            EventSystem.current.SetSelectedGameObject(lastSel_obj);
+        {
+            if (Device_Check.device == "PAD")
+            { EventSystem.current.SetSelectedGameObject(lastSel_obj); }
+        }
         else if (mainBtns.Count > 0)
-            EventSystem.current.SetSelectedGameObject(mainBtns[0].gameObject);
+        { if (Device_Check.device == "PAD")
+            { EventSystem.current.SetSelectedGameObject(mainBtns[0].gameObject); }
+        }
     }
 
     private void SaveOriginalNavigation()

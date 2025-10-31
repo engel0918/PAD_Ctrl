@@ -6,6 +6,9 @@ TagManager:
   tags:
   - PopUp
   - Data
+  - Volume
+  - Steam
+  - Device_Check
   layers:
   - Default
   - TransparentFX

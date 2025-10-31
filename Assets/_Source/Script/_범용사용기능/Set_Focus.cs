@@ -8,6 +8,7 @@ public class Set_Focus : MonoBehaviour
 
     private void OnEnable()
     {
-        EventSystem.current.SetSelectedGameObject(Btn.gameObject);
+        if (Device_Check.device == "PAD")
+        { EventSystem.current.SetSelectedGameObject(Btn.gameObject); }
     }
 }

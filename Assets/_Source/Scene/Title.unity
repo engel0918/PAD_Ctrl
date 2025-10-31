@@ -2628,6 +2628,50 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &528180977
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 528180979}
+  - component: {fileID: 528180978}
+  m_Layer: 0
+  m_Name: Device_Check
+  m_TagString: Device_Check
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &528180978
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 528180977}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87b38937b566ede428e78d4738418921, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &528180979
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 528180977}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1089.4203, y: 628.68774, z: -19.423822}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &539717183
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6507,8 +6551,10 @@ MonoBehaviour:
   - {fileID: 1600996289}
   - {fileID: 1896135208}
   - {fileID: 118303483}
+  ApplyBtn: {fileID: 0}
   audioMixer: {fileID: 24100000, guid: d9e07e238d290544fae3ba614ec93775, type: 2}
   Scene_Loading: {fileID: 8924280822610115962, guid: 58d3df567bcdcf3498e55699dbc06129, type: 3}
+  postProcessVolume: {fileID: 0}
 --- !u!1 &1217223806
 GameObject:
   m_ObjectHideFlags: 0
@@ -6929,6 +6975,7 @@ MonoBehaviour:
   popupBtns:
   - {fileID: 1380788131}
   - {fileID: 1462393546}
+  lastSel_obj: {fileID: 0}
   PopUp_is: 0
 --- !u!114 &1331283840
 MonoBehaviour:
@@ -10499,6 +10546,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d697fda2ba9a684fb1d2a898710742a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Order: 0
   ReturnPage: {fileID: 1848862216}
   Start_Btn: {fileID: 741025832}
   Tit_Btns:
@@ -12751,3 +12799,4 @@ SceneRoots:
   - {fileID: 1867435271}
   - {fileID: 1475058487}
   - {fileID: 453442100}
+  - {fileID: 528180979}

@@ -73,7 +73,8 @@ public class Set_Ctrl : MonoBehaviour
 
     public void Evt_Wakeup()
     {
-        EventSystem.current.SetSelectedGameObject(PageBtns[0].gameObject);
+        if (Device_Check.device == "PAD")
+        { EventSystem.current.SetSelectedGameObject(PageBtns[0].gameObject); }
         func_PageCtrl(0);
 
         if(ApplyBtn != null)
