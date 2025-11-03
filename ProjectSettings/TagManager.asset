@@ -8,7 +8,10 @@ TagManager:
   - Data
   - Volume
   - Steam
-  - Device_Check
+  - ItList
+  - Menu
+  - InvenCtrl
+  - DvcCheck
   layers:
   - Default
   - TransparentFX

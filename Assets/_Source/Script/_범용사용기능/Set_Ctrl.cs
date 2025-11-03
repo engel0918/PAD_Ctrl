@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using Steamworks;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using TMPro;
@@ -44,6 +45,7 @@ public class Set_Ctrl : MonoBehaviour
 
     private const string SETTINGS_FILE = "settings.json";
     SteamSave Steam;
+    Device_Check DvcCheck;
 
     private void Awake()
     {
@@ -83,6 +85,9 @@ public class Set_Ctrl : MonoBehaviour
 
     void SetBtn()
     {
+        if (DvcCheck == null)
+        { DvcCheck = GameObject.FindGameObjectWithTag("DvcCheck").GetComponent<Device_Check>(); }
+
         if (PageBtns.Count > 0)
         {
             for (int i = 0; i <= (PageBtns.Count - 1); i++)
@@ -94,21 +99,78 @@ public class Set_Ctrl : MonoBehaviour
                 }
             }
         }
+
+        List<GameObject> Btn_objs = new List<GameObject>();
+        for (int i = 0; i <= (PageBtns.Count - 1); i++) { Btn_objs.Add(PageBtns[i].gameObject); }
+        EvtTrg(Btn_objs);
     }
 
     void UI_SetFunc()
     {
         // UI에 기능을 얹기
+        if (DvcCheck == null)
+        { DvcCheck = GameObject.FindGameObjectWithTag("DvcCheck").GetComponent<Device_Check>(); }
+
 
         Sld_List[0].onValueChanged.AddListener((value) => SetMenu_Func("Mv"));
         Sld_List[1].onValueChanged.AddListener((value) => SetMenu_Func("BGMv"));
         Sld_List[2].onValueChanged.AddListener((value) => SetMenu_Func("SFXv"));
+
+        List<GameObject> Sld_objs = new List<GameObject>();
+        for(int i = 0; i <= (Sld_List.Count-1); i++) 
+        {
+            Sld_objs.Add(Sld_List[i].gameObject);
+
+            if(Sld_List[i].GetComponent<Sld_Evt>() != null)
+            {
+                Sld_Evt sldEvt = Sld_List[i].GetComponent<Sld_Evt>();
+
+                if(sldEvt.Btn_SldDown != null) { Sld_objs.Add(sldEvt.Btn_SldDown.gameObject); }
+                if (sldEvt.Btn_SldUp != null) { Sld_objs.Add(sldEvt.Btn_SldUp.gameObject); }
+            }
+        EvtTrg(Sld_objs);
 
         Dd_List[0].onValueChanged.AddListener((value) => SetMenu_Func("None"));
         Dd_List[1].onValueChanged.AddListener((value) => SetMenu_Func("None"));
         Dd_List[2].onValueChanged.AddListener((value) => SetMenu_Func("None"));
         Dd_List[3].onValueChanged.AddListener((value) => SetMenu_Func("None"));
 
+        List<GameObject> DD_objs = new List<GameObject>();
+        for (int i = 0; i <= (Dd_List.Count - 1); i++) { DD_objs.Add(Dd_List[i].gameObject); }
+        EvtTrg(DD_objs);
+    }
+
+    void EvtTrg(List<GameObject> objs)
+    {
+        for (int i = 0; i < objs.Count; i++)
+        {
+            int index = i;
+
+            // 버튼에 EventTrigger가 없다면 자동으로 추가
+            EventTrigger trigger = objs[i].gameObject.GetComponent<EventTrigger>();
+            if (trigger == null)
+                trigger = objs[i].gameObject.AddComponent<EventTrigger>();
+
+            // --- 기존 이벤트 중복 방지 ---
+            if (trigger.triggers == null)
+                trigger.triggers = new List<EventTrigger.Entry>();
+            else
+                trigger.triggers.Clear();
+
+            // --- 패드용 버튼에 이벤트 조정 ---
+            objs[i].AddComponent<Dvc_HovEvt>().DvcCheck = DvcCheck;
+        }
+    }
+
+    void AddEventTrigger(GameObject obj, EventTriggerType type, System.Action action)
+    {
+        EventTrigger trigger = obj.GetComponent<EventTrigger>();
+        if (trigger == null)
+            trigger = obj.AddComponent<EventTrigger>();
+
+        EventTrigger.Entry entry = new EventTrigger.Entry { eventID = type };
+        entry.callback.AddListener((eventData) => { action(); });
+        trigger.triggers.Add(entry);
     }
 
     void SetMenu_Func(string str)

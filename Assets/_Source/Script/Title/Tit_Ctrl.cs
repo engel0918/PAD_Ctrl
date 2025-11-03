@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Steamworks;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
@@ -29,21 +30,17 @@ public class Tit_Ctrl : MonoBehaviour
 
     bool SizeCheck;
     PageCtrl page;
-
-    SteamSave SteamMgr;
+    Device_Check DvcCheck;
 
     private void Start()
     {
         Order = -1;
 
-        gameObject.AddComponent<SteamManager>();
-        SteamMgr = gameObject.AddComponent<SteamSave>();
-        transform.tag = "Steam";
-
         Hover_Obj.SetActive(false);
 
         SetBtn();
         SetReturn();
+
     }
 
     private void OnEnable()
@@ -65,6 +62,8 @@ public class Tit_Ctrl : MonoBehaviour
         {
             ReturnPage.GetComponent<Set_Focus>().enabled = false;
 
+            DvcCheck.HovEvt(Tit_Btns[Order].gameObject);
+
             if (Device_Check.device == "PAD")
             { EventSystem.current.SetSelectedGameObject(Tit_Btns[Order].gameObject); }
         }
@@ -81,6 +80,9 @@ public class Tit_Ctrl : MonoBehaviour
 
     void SetBtn()
     {
+        if (DvcCheck == null)
+        { DvcCheck = GameObject.FindGameObjectWithTag("DvcCheck").GetComponent<Device_Check>(); }
+
         if (page == null) { page = GetComponent<PageCtrl>(); }
 
         for (int i = 0; i < page.PageBtns.Count; i++)
@@ -88,7 +90,7 @@ public class Tit_Ctrl : MonoBehaviour
 
         for (int i = 0; i < Tit_Btns.Count; i++)
         {
-            int index = i; // ⚠️ 반드시 지역 변수로 복사해야 각 버튼이 자기 인덱스를 기억합니다.
+            int index = i; // 반드시 지역 변수로 복사해야 각 버튼이 자기 인덱스를 기억합니다.
 
             if (Tit_Btns[index] != null)
             { Tit_Btns[index].onClick.AddListener(() => SetOrder(index)); }
@@ -106,6 +108,7 @@ public class Tit_Ctrl : MonoBehaviour
 
             // --- 패드용 버튼에 이벤트 조정 ---
             Tit_Btns[i].AddComponent<Tit_HovEvt>().Tit = this;
+            Tit_Btns[i].AddComponent<Dvc_HovEvt>().DvcCheck = DvcCheck;
 
             // --- Pointer Enter Event ---
             AddEventTrigger(Tit_Btns[i].gameObject, EventTriggerType.PointerEnter, () => Hov_Evt(index));
@@ -127,10 +130,24 @@ public class Tit_Ctrl : MonoBehaviour
                     int index = i;
                     Btn_Returns[i].onClick.AddListener(SetReturn);
                     Btn_Returns[i].gameObject.AddComponent<Tit_ReturnBtn>().Btn = Btn_Returns[i];
+
+                    // 버튼에 EventTrigger가 없다면 자동으로 추가
+                    EventTrigger trigger = Btn_Returns[i].gameObject.GetComponent<EventTrigger>();
+                    if (trigger == null)
+                        trigger = Btn_Returns[i].gameObject.AddComponent<EventTrigger>();
+
+                    // --- 기존 이벤트 중복 방지 ---
+                    if (trigger.triggers == null)
+                        trigger.triggers = new List<EventTrigger.Entry>();
+                    else
+                        trigger.triggers.Clear();
+
+                    // --- 패드용 버튼에 이벤트 조정 ---
+                    Btn_Returns[i].AddComponent<Dvc_HovEvt>().DvcCheck = DvcCheck;
+
                 }
             }
         }
-
     }
 
     void AddEventTrigger(GameObject obj, EventTriggerType type, System.Action action)

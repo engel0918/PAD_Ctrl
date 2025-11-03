@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Steamworks;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -25,12 +26,15 @@ public class PopUp : MonoBehaviour
 
     private Dictionary<Button, Navigation> originalNav = new Dictionary<Button, Navigation>();
 
-    public GameObject lastSel_obj;
-
     public bool PopUp_is;
+
+    Device_Check DvcCheck;
+
     private void Awake()
     {
         popup = GetComponent<PopUp_Obj>();
+        if (DvcCheck == null)
+        { DvcCheck = GameObject.FindGameObjectWithTag("DvcCheck").GetComponent<Device_Check>(); }
     }
 
     void Start()
@@ -91,11 +95,9 @@ public class PopUp : MonoBehaviour
             popupBtns[1].onClick.AddListener(PopUP_Off);
 
             if (Device_Check.device == "PAD")
-            {
-                { EventSystem.current.SetSelectedGameObject(popupBtns[0].gameObject); }
+            { EventSystem.current.SetSelectedGameObject(popupBtns[0].gameObject); }
 
-                PopUp_is = true;
-            }
+            PopUp_is = true;
         }
     }
 
@@ -125,7 +127,7 @@ public class PopUp : MonoBehaviour
     void NaviFunc_Popup_On()
     {
         // 팝업 열기 전에 현재 선택된 버튼 저장
-        lastSel_obj = EventSystem.current.currentSelectedGameObject;
+        DvcCheck.Btn_LastHoved = EventSystem.current.currentSelectedGameObject;
 
         SaveOriginalNavigation();
 
@@ -165,24 +167,16 @@ public class PopUp : MonoBehaviour
     {
         RestoreOriginalNavigation();
 
-        // 스크롤 복원
-        foreach (var scroll in mainScrolls)
-            scroll.enabled = true;
-
-        if (mainBtns.Count > 0)
+        if (Device_Check.device == "PAD")
         {
-            if (Device_Check.device == "PAD")
-            { EventSystem.current.SetSelectedGameObject(mainBtns[0].gameObject); }
-        }
-
-        // 마지막 선택된 버튼으로 복원
-        if (lastSel_obj != null)
-        {
-            if (Device_Check.device == "PAD")
-            { EventSystem.current.SetSelectedGameObject(lastSel_obj); }
-        }
-        else if (mainBtns.Count > 0)
-        { if (Device_Check.device == "PAD")
+            // 마지막 선택된 버튼으로 복원
+            if (DvcCheck.Btn_LastHoved != null)
+            {
+                if (DvcCheck.Btn_LastHoved.activeSelf == true &&
+                    DvcCheck.Btn_LastHoved.GetComponent<Selectable>().navigation.mode == Navigation.Mode.Automatic)
+                { EventSystem.current.SetSelectedGameObject(DvcCheck.Btn_LastHoved); }
+            }
+            else if (mainBtns.Count > 0)
             { EventSystem.current.SetSelectedGameObject(mainBtns[0].gameObject); }
         }
     }
@@ -206,6 +200,10 @@ public class PopUp : MonoBehaviour
                 btn.interactable = true;
             }
         }
+
+        // 스크롤 복원
+        foreach (var scroll in mainScrolls)
+            scroll.enabled = true;
 
         foreach (var btn in popupBtns)
         {
