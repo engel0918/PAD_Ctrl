@@ -117,17 +117,18 @@ public class Set_Ctrl : MonoBehaviour
         Sld_List[2].onValueChanged.AddListener((value) => SetMenu_Func("SFXv"));
 
         List<GameObject> Sld_objs = new List<GameObject>();
-        for(int i = 0; i <= (Sld_List.Count-1); i++) 
+        for (int i = 0; i <= (Sld_List.Count - 1); i++)
         {
             Sld_objs.Add(Sld_List[i].gameObject);
 
-            if(Sld_List[i].GetComponent<Sld_Evt>() != null)
+            if (Sld_List[i].GetComponent<Sld_Evt>() != null)
             {
                 Sld_Evt sldEvt = Sld_List[i].GetComponent<Sld_Evt>();
 
-                if(sldEvt.Btn_SldDown != null) { Sld_objs.Add(sldEvt.Btn_SldDown.gameObject); }
+                if (sldEvt.Btn_SldDown != null) { Sld_objs.Add(sldEvt.Btn_SldDown.gameObject); }
                 if (sldEvt.Btn_SldUp != null) { Sld_objs.Add(sldEvt.Btn_SldUp.gameObject); }
             }
+        }
         EvtTrg(Sld_objs);
 
         Dd_List[0].onValueChanged.AddListener((value) => SetMenu_Func("None"));
@@ -136,7 +137,8 @@ public class Set_Ctrl : MonoBehaviour
         Dd_List[3].onValueChanged.AddListener((value) => SetMenu_Func("None"));
 
         List<GameObject> DD_objs = new List<GameObject>();
-        for (int i = 0; i <= (Dd_List.Count - 1); i++) { DD_objs.Add(Dd_List[i].gameObject); }
+        for (int i = 0; i <= (Dd_List.Count - 1); i++) 
+        { DD_objs.Add(Dd_List[i].gameObject); }
         EvtTrg(DD_objs);
     }
 
