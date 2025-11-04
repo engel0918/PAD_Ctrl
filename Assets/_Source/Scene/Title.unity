@@ -599,7 +599,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7431525209687495931, guid: 8f09f9fa9ad044142b2680efe6d6e15a, type: 3}
       propertyPath: m_Name
-      value: Slider
+      value: Func_SFX
       objectReference: {fileID: 0}
     - target: {fileID: 7584657563860972730, guid: 8f09f9fa9ad044142b2680efe6d6e15a, type: 3}
       propertyPath: m_Pivot.x
@@ -680,6 +680,14 @@ PrefabInstance:
     - target: {fileID: 7584657563860972730, guid: 8f09f9fa9ad044142b2680efe6d6e15a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7949898241389407113, guid: 8f09f9fa9ad044142b2680efe6d6e15a, type: 3}
+      propertyPath: m_Name
+      value: SFX_Sld Ign_NavFind
+      objectReference: {fileID: 0}
+    - target: {fileID: 7949898241389407113, guid: 8f09f9fa9ad044142b2680efe6d6e15a, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 8706860158020918539, guid: 8f09f9fa9ad044142b2680efe6d6e15a, type: 3}
       propertyPath: m_AnchorMax.y
@@ -4963,6 +4971,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Btns: []
   Scrolls: []
+  Dropdowns: []
+  Sliders: []
 --- !u!1 &962380314
 GameObject:
   m_ObjectHideFlags: 0
@@ -9348,7 +9358,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7431525209687495931, guid: 8f09f9fa9ad044142b2680efe6d6e15a, type: 3}
       propertyPath: m_Name
-      value: Slider
+      value: Finc_MV
       objectReference: {fileID: 0}
     - target: {fileID: 7584657563860972730, guid: 8f09f9fa9ad044142b2680efe6d6e15a, type: 3}
       propertyPath: m_Pivot.x
@@ -9429,6 +9439,14 @@ PrefabInstance:
     - target: {fileID: 7584657563860972730, guid: 8f09f9fa9ad044142b2680efe6d6e15a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7949898241389407113, guid: 8f09f9fa9ad044142b2680efe6d6e15a, type: 3}
+      propertyPath: m_Name
+      value: MV_Sld Ign_NavFind
+      objectReference: {fileID: 0}
+    - target: {fileID: 7949898241389407113, guid: 8f09f9fa9ad044142b2680efe6d6e15a, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 8706860158020918539, guid: 8f09f9fa9ad044142b2680efe6d6e15a, type: 3}
       propertyPath: m_AnchorMax.y
@@ -11614,7 +11632,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7431525209687495931, guid: 8f09f9fa9ad044142b2680efe6d6e15a, type: 3}
       propertyPath: m_Name
-      value: Slider
+      value: Func_BGM
       objectReference: {fileID: 0}
     - target: {fileID: 7584657563860972730, guid: 8f09f9fa9ad044142b2680efe6d6e15a, type: 3}
       propertyPath: m_Pivot.x
@@ -11695,6 +11713,14 @@ PrefabInstance:
     - target: {fileID: 7584657563860972730, guid: 8f09f9fa9ad044142b2680efe6d6e15a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7949898241389407113, guid: 8f09f9fa9ad044142b2680efe6d6e15a, type: 3}
+      propertyPath: m_Name
+      value: BGM_Sld Ign_NavFind
+      objectReference: {fileID: 0}
+    - target: {fileID: 7949898241389407113, guid: 8f09f9fa9ad044142b2680efe6d6e15a, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 8706860158020918539, guid: 8f09f9fa9ad044142b2680efe6d6e15a, type: 3}
       propertyPath: m_AnchorMax.y

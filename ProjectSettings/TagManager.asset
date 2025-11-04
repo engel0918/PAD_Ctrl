@@ -12,6 +12,7 @@ TagManager:
   - Menu
   - InvenCtrl
   - DvcCheck
+  - Ignore_NaviFind
   layers:
   - Default
   - TransparentFX

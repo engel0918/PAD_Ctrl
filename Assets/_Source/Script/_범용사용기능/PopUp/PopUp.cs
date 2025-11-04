@@ -21,8 +21,10 @@ public class PopUp : MonoBehaviour
     [Header("0.Yes, 1.No Btn")]
     public List<Button> popupBtns;
 
-    private List<Button> mainBtns = new List<Button>();
-    private List<ScrollRect> mainScrolls = new List<ScrollRect>();
+    private List<Button> ItrBtns = new List<Button>();
+    private List<ScrollRect> ItrScrolls = new List<ScrollRect>();
+    private List<TMP_Dropdown> ItrDds = new List<TMP_Dropdown>();
+    private List<Slider> ItrSlds = new List<Slider>();
 
     private Dictionary<Button, Navigation> originalNav = new Dictionary<Button, Navigation>();
 
@@ -44,8 +46,10 @@ public class PopUp : MonoBehaviour
 
         if (Navifinder != null)
         {
-            mainBtns = Navifinder.GetButtons();
-            mainScrolls = Navifinder.GetScrollRects();
+            ItrBtns = Navifinder.GetButtons();
+            ItrScrolls = Navifinder.GetScrollRects();
+            ItrDds = Navifinder.GetDropdowns();
+            ItrSlds = Navifinder.GetSliders();
         }
     }
 
@@ -132,16 +136,47 @@ public class PopUp : MonoBehaviour
         SaveOriginalNavigation();
 
         // 스크롤 비활성화
-        foreach (var scroll in mainScrolls)
+        foreach (var scroll in ItrScrolls)
+        {
             scroll.enabled = false;
 
+            var sel = scroll.GetComponent<Selectable>();
+            if (sel != null)
+            {
+                sel.interactable = false;
+                var nav = sel.navigation;
+                nav.mode = Navigation.Mode.None;
+                sel.navigation = nav;
+            }
+        }
+
         // 메인 버튼 비활성화
-        foreach (var btn in mainBtns)
+        foreach (var btn in ItrBtns)
         {
             btn.interactable = false;
             var nav = btn.navigation;
             nav.mode = Navigation.Mode.None;
             btn.navigation = nav;
+        }
+
+        // Dropdown 비활성화
+        foreach (var dropdown in ItrDds)
+        {
+            dropdown.interactable = false;
+
+            var nav = dropdown.navigation;
+            nav.mode = Navigation.Mode.None;
+            dropdown.navigation = nav;
+        }
+
+        // Slider 비활성화
+        foreach (var slider in ItrSlds)
+        {
+            slider.interactable = false;
+
+            var nav = slider.navigation;
+            nav.mode = Navigation.Mode.None;
+            slider.navigation = nav;
         }
 
         // 팝업 버튼 활성화
@@ -156,9 +191,7 @@ public class PopUp : MonoBehaviour
         if (popupBtns.Count > 0)
         {
             if (Device_Check.device == "PAD")
-            {
-                EventSystem.current.SetSelectedGameObject(popupBtns[0].gameObject);
-            }
+            { EventSystem.current.SetSelectedGameObject(popupBtns[0].gameObject); }
         }
     }
 
@@ -175,15 +208,18 @@ public class PopUp : MonoBehaviour
                 if (DvcCheck.Btn_LastHoved.activeSelf == true &&
                     DvcCheck.Btn_LastHoved.GetComponent<Selectable>().navigation.mode == Navigation.Mode.Automatic)
                 { EventSystem.current.SetSelectedGameObject(DvcCheck.Btn_LastHoved); }
+
+                else if (DvcCheck.Btn_PageSet != null)
+                { EventSystem.current.SetSelectedGameObject(DvcCheck.Btn_PageSet); }
             }
-            else if (mainBtns.Count > 0)
-            { EventSystem.current.SetSelectedGameObject(mainBtns[0].gameObject); }
+            else if (DvcCheck.Btn_PageSet != null)
+            { EventSystem.current.SetSelectedGameObject(DvcCheck.Btn_PageSet); }
         }
     }
 
     private void SaveOriginalNavigation()
     {
-        foreach (var btn in mainBtns)
+        foreach (var btn in ItrBtns)
         {
             if (!originalNav.ContainsKey(btn))
                 originalNav[btn] = btn.navigation;
@@ -192,7 +228,7 @@ public class PopUp : MonoBehaviour
 
     private void RestoreOriginalNavigation()
     {
-        foreach (var btn in mainBtns)
+        foreach (var btn in ItrBtns)
         {
             if (originalNav.ContainsKey(btn))
             {
@@ -202,8 +238,49 @@ public class PopUp : MonoBehaviour
         }
 
         // 스크롤 복원
-        foreach (var scroll in mainScrolls)
+        foreach (var scroll in ItrScrolls)
+        {
             scroll.enabled = true;
+
+            var sel = scroll.GetComponent<Selectable>();
+            if (sel != null)
+            {
+                sel.interactable = true;
+                var nav = sel.navigation;
+                nav.mode = Navigation.Mode.Automatic;
+                sel.navigation = nav;
+            }
+        }
+
+        // 드랍다운 복원
+        foreach (var dd in ItrDds)
+        {
+            dd.enabled = true;
+
+            var sel = dd.GetComponent<Selectable>();
+            if (sel != null)
+            {
+                sel.interactable = true;
+                var nav = sel.navigation;
+                nav.mode = Navigation.Mode.Automatic;
+                sel.navigation = nav;
+            }
+        }
+
+        // 슬라이더 복원
+        foreach (var sld in ItrSlds)
+        {
+            sld.enabled = true;
+
+            var sel = sld.GetComponent<Selectable>();
+            if (sel != null)
+            {
+                sel.interactable = true;
+                var nav = sel.navigation;
+                nav.mode = Navigation.Mode.Automatic;
+                sel.navigation = nav;
+            }
+        }
 
         foreach (var btn in popupBtns)
         {
