@@ -72,7 +72,10 @@ public class PopUp_Load : MonoBehaviour
     void SetApply_A(int i)
     {
         if (i == 0)
-        { Debug.Log("변경된 설정을 적용하였습니다."); }
+        {
+            Debug.Log("변경된 설정을 적용하였습니다.");
+            GetComponent<Set_Ctrl>().Func_Apply();
+        }
         else if (i == 1) { Debug.Log("변경된 설정을 적용하지않습니다."); }
     }
 

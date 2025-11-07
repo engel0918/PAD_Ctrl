@@ -2,12 +2,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Text;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
-using static System.Net.Mime.MediaTypeNames;
 
 [System.Serializable]
 
@@ -73,11 +69,11 @@ public class SteamSave : MonoBehaviour
         Steam_Set();
 
         // 클라우드 삭제 기능 
-        //if (SteamRemoteStorage.FileExists(txt))
-        //{
-        //    bool deleted = SteamRemoteStorage.FileDelete(txt);
-        //    Debug.Log("File Deleted: " + deleted);
-        //}
+        if (SteamRemoteStorage.FileExists(Setting_File))
+        {
+            bool deleted = SteamRemoteStorage.FileDelete(Setting_File);
+            Debug.Log("File Deleted: " + deleted);
+        }
 
         if (!SteamRemoteStorage.FileExists(Setting_File))
         { return "No Data"; }
@@ -93,9 +89,10 @@ public class SteamSave : MonoBehaviour
             AA = val1[1],
             GM = val1[2],
             RES = val1[3],
-            Mv = val2[1],
-            BGMv = val2[2],
-            SFXv = val2[3],
+
+            Mv = val2[0],
+            BGMv = val2[1],
+            SFXv = val2[2],
         };
 
         string json = JsonUtility.ToJson(data);

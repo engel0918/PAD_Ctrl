@@ -9,6 +9,7 @@ public class SetObj : MonoBehaviour
         if(SetCtrl != null)
         {
             SetCtrl.Evt_Wakeup();
+            SetCtrl.SetData_Check();
         }
     }
 }

@@ -46,6 +46,7 @@ public class Set_Ctrl : MonoBehaviour
     private const string SETTINGS_FILE = "settings.json";
     SteamSave Steam;
     Device_Check DvcCheck;
+    PopUp_Load popup_load;
 
     private void Awake()
     {
@@ -71,6 +72,33 @@ public class Set_Ctrl : MonoBehaviour
             Debug.LogError("Steam API 초기화 실패!");
 
         Start_Set();
+        SetData_Check();
+    }
+
+    public void SetData_Check()
+    {
+        if (Steam == null)
+        { Steam = GameObject.FindGameObjectWithTag("Steam").GetComponent<SteamSave>(); }
+
+        Debug.Log(Steam.SetDat_Check());
+
+        if (Steam.SetDat_Check() == "No Data" || Steam.SetDat_Check() == "Data Available")
+        { Data_is(Steam.SetDat_Check()); }
+
+    }
+
+    void Data_is(string str)
+    {
+        if (str == "No Data")
+        {
+            //Set_IntroData();
+            Set_NoData();
+        }
+        else if(str == "Data Available")
+        {
+            //SceneMove("Lobby");
+            Set_AvailableData();
+        }
     }
 
     public void Evt_Wakeup()
@@ -87,6 +115,11 @@ public class Set_Ctrl : MonoBehaviour
     {
         if (DvcCheck == null)
         { DvcCheck = GameObject.FindGameObjectWithTag("DvcCheck").GetComponent<Device_Check>(); }
+
+        if(popup_load == null)
+        { popup_load = GetComponent<PopUp_Load>(); }
+
+        ApplyBtn.GetComponent<Button>().onClick.AddListener(popup_load.PopUP_On);
 
         if (PageBtns.Count > 0)
         {
@@ -185,7 +218,7 @@ public class Set_Ctrl : MonoBehaviour
         { AudTxt_List[2].text = Sld_List[2].value.ToString("F0") + "%"; }
 
         if (ApplyBtn != null)
-        { ApplyBtn.SetActive(false); }
+        { ApplyBtn.SetActive(true); }
     }
 
     public void func_PageCtrl(int i)
@@ -222,7 +255,7 @@ public class Set_Ctrl : MonoBehaviour
     }
 
     // Title에서 켜는 설정메뉴
-    public void Set_TitleData()
+    public void Set_NoData()
     {
         // 현재 상태 체크
         int GQlv = QualitySettings.GetQualityLevel();
@@ -234,6 +267,7 @@ public class Set_Ctrl : MonoBehaviour
         float Mv, BGMv, SFXv;
 
         // 창모드
+        GMlv = -1;
         if (Screen.fullScreenMode == FullScreenMode.Windowed)
         { GMlv = 0; Dd_List[2].value = 0; }
         // 테두리 없는 창 모드
@@ -262,7 +296,7 @@ public class Set_Ctrl : MonoBehaviour
 
         Dd_List[0].value = GQlv;
         Dd_List[1].value = AAlv;
-        //Dd_List[2].value = GMlv;
+        Dd_List[2].value = GMlv;
         Dd_List[3].value = RESlv;
 
         Sld_List[0].value = Mv;
@@ -277,7 +311,7 @@ public class Set_Ctrl : MonoBehaviour
     }
 
     // 메뉴에서 켜는 설정메뉴
-    public void Set_SetData()
+    public void Set_AvailableData()
     {
         //----------------------- 설정 로드 -----------------------
         if (!SteamRemoteStorage.FileExists(SETTINGS_FILE))
@@ -358,6 +392,8 @@ public class Set_Ctrl : MonoBehaviour
 
         Steam.SaveSettings(ints, floats);
         Apply();
+
+        ApplyBtn.SetActive(false);
     }
 
     //실제 적용
