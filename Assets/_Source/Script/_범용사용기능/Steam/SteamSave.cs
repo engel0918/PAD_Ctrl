@@ -69,11 +69,11 @@ public class SteamSave : MonoBehaviour
         Steam_Set();
 
         // 클라우드 삭제 기능 
-        if (SteamRemoteStorage.FileExists(Setting_File))
-        {
-            bool deleted = SteamRemoteStorage.FileDelete(Setting_File);
-            Debug.Log("File Deleted: " + deleted);
-        }
+        //if (SteamRemoteStorage.FileExists(Setting_File))
+        //{
+        //    bool deleted = SteamRemoteStorage.FileDelete(Setting_File);
+        //    Debug.Log("File Deleted: " + deleted);
+        //}
 
         if (!SteamRemoteStorage.FileExists(Setting_File))
         { return "No Data"; }

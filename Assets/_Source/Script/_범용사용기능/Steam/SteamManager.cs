@@ -73,6 +73,7 @@ public class SteamManager : MonoBehaviour
         if (Initialized)
         {
             SteamAPI.Shutdown();
+            Initialized = false;
         }
     }
 
@@ -82,5 +83,13 @@ public class SteamManager : MonoBehaviour
         {
             SteamAPI.RunCallbacks();
         }
+    }
+    public static void ShutdownSteam()
+    {
+        if (!Initialized)
+            return;
+
+        SteamAPI.Shutdown();
+        Initialized = false;
     }
 }

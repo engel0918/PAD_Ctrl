@@ -1,3 +1,4 @@
+using Steamworks;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -82,21 +83,40 @@ public class PopUp_Load : MonoBehaviour
     void QuitGame_A(int i)
     {
         popup.popup.Tit.SetReturn();
+
         if (i == 0)
         {
             Debug.Log("게임을 종료합니다.");
-            OnApplicationQuit();
+            StartCoroutine(QuitRoutine());
         }
         else if (i == 1)
-        { Debug.Log("게임을 종료하지않습니다."); }
+        {
+            Debug.Log("게임을 종료하지 않습니다.");
+        }
     }
 
-    void OnApplicationQuit()
+    private IEnumerator QuitRoutine()
     {
-        #if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;  // 에디터 플레이 모드 종료
-        #else
-        Application.Quit();  // 빌드된 게임 종료
-        #endif
+        if (SteamManager.Initialized)
+        {
+            SteamAPI.Shutdown();
+            SteamManager.ShutdownSteam();
+        }
+
+        yield return null;
+
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+    Application.Quit();
+#endif
+    }
+
+    private void OnApplicationQuit()
+    {
+        if (SteamManager.Initialized)
+        {
+            SteamAPI.Shutdown();
+        }
     }
 }
